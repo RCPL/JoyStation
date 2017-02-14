@@ -2,11 +2,11 @@
 <html>
   <head>
     <meta charset="utf-8">
-    <meta content="width=device-width,maximum-scale=2.0,initial-scale=1.0,minimum-scale=1.0,user-scalable=no" name="viewport">
+    <meta content="width=device-width,maximum-scale=1.0,initial-scale=1.0,minimum-scale=1.0,user-scalable=no" name="viewport">
     <title>Access Magazine - Richland Library</title>
-    <link rel="stylesheet" href="../sassless/wildcard.css">
-    <link rel="stylesheet" href="../sassless/layout.css">
-    <link rel="stylesheet" href="access.css">
+    <!-- <link rel="stylesheet" href="../sassless/wildcard.css">
+    <link rel="stylesheet" href="../sassless/layout.css"> -->
+    <link rel="stylesheet" href="qotd.css">
     <script>
       todaysQuestion = "How do you feel about books?";
       thisLocation = "main";
@@ -22,14 +22,29 @@
         );
       }
     </script>
+
   </head>
   <body>
-    <h1>Question of the Day</h1>
+    <h1>How do you feel about books?</h1>
 
-    <a href="javascript:trackEvent('I love books!',2)">I love books! <img src="happy.png"></a>
-    <a href="javascript:trackEvent('They\'re okay.',1)">They're okay. <img src="okay.png"></a>
-    <a href="javascript:trackEvent('Nah.',-1)">Nah. <img src="meh.png"></a>
-    <a href="javascript:trackEvent('Yuck.',-2)">Yuck. <img src="bummer.png"></a>
+    <div class="buttons">
+      <a href="javascript:trackEvent('I love books!',2)">
+        <img src="happy.png">
+        <label>I love books!</label>
+      </a>
+      <a href="javascript:trackEvent('They\'re okay.',1)">
+        <img src="okay.png">
+        <label>They're okay.</label>
+      </a>
+      <a href="javascript:trackEvent('Nah.',-1)">
+        <img src="meh.png">
+        <label>Nah.</label>
+      </a>
+      <a href="javascript:trackEvent('Yuck.',-2)">
+        <img src="bummer.png">
+        <label>Yuck.</label>
+      </a>
+    </div>
 
     <script>
       (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
