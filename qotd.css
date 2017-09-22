@@ -22,9 +22,8 @@ label{
 }
 
 .buttons{
-  display:flex;
-  flex-direction:row;
-  flex-wrap: wrap;
+  display:grid;
+  grid-template-columns: repeat(auto-fill, minmax(310px, 1fr) ) ;
 }
 
 a{

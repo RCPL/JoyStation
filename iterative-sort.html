@@ -1,0 +1,40 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta content="width=device-width,user-scalable=no" name="viewport">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="white">
+    <link rel="shortcut icon" type="image/png" href="favicon.png">
+    <link rel="apple-touch-icon" href="app-icon.png">
+    <title>Iterative Card Sort - Richland Library</title>
+    <link rel="stylesheet" href="qotd.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.3.4/vue.min.js"></script>
+    <script src="https://unpkg.com/draggabilly@2/dist/draggabilly.pkgd.min.js"></script>
+    <script src="https://raw.githubusercontent.com/Airtable/airtable.js/master/build/airtable.browser.js"></script>
+  </head>
+  <body>
+    <h1>Are these items in the correct place?</h1>
+
+    <div id="vueApp">
+      <div v-for="card in cards" class="cards">
+        <div>
+          <p>{{card.fields.parent}}/{{card.fields.Name}}</p>
+        </div>
+      </div>
+    </div>
+
+<!-- 
+    <div id="buttons" class="buttons">
+      <a href="#" data-value="2" style="background-image:url(happy.svg)">Amazing!</a>
+      <a href="#" data-value="1" style="background-image:url(okay.svg)">Okay.</a>
+      <a href="#" data-value="-1" style="background-image:url(meh.svg)">Meh.</a>
+      <a href="#" data-value="-2" style="background-image:url(bummer.svg)">Bummer!</a>
+    </div>
+
+    <label id="thisLocation">Main</label> -->
+
+    <script src="ga.js"></script>
+    <script src="iterative-sort.js"></script>
+  </body>
+</html>
