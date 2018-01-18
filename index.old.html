@@ -1,0 +1,58 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta content="width=device-width,user-scalable=no" name="viewport">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="white">
+    <link rel="shortcut icon" type="image/png" href="favicon.png">
+    <link rel="apple-touch-icon" href="app-icon.png">
+    <title>Question of the Day - Richland Library</title>
+    <link rel="stylesheet" href="qotd.css">
+  </head>
+  <body>
+    <h1 id="todaysQuestion">How was the library today?</h1>
+
+    <div id="buttons" class="buttons">
+      <a href="#" data-value="2" style="background-image:url(happy.svg)">Amazing!</a>
+      <a href="#" data-value="1" style="background-image:url(okay.svg)">Okay.</a>
+      <a href="#" data-value="-1" style="background-image:url(meh.svg)">Meh.</a>
+      <a href="#" data-value="-2" style="background-image:url(bummer.svg)">Bummer!</a>
+    </div>
+
+    <label id="thisLocation">Main</label>
+
+    <script>
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+      ga('create', 'UA-36679089-5', 'auto');
+      ga('send', 'pageview');
+
+      // collect values from the elements on the page
+      var todaysQuestion = document.getElementById('todaysQuestion').innerText;
+      var todaysLocation = document.getElementById('thisLocation').innerText;
+
+      var buttonsParent = document.getElementById('buttons');
+      for (var i=0; i<buttonsParent.childElementCount; i++) {
+        buttonsParent.children[i].ontouchstart = function(e) {
+          this.classList.remove('awesome');
+        }
+        buttonsParent.children[i].ontouchend = function(e) {
+          this.classList.add('awesome');
+          ga(
+            'send', //command
+            'event', //hitType
+            todaysQuestion, //eventCategory
+            this.innerText, //eventAction
+            todaysLocation, //eventLabel
+            this.dataset.value //eventValue
+          );
+          e.preventDefault();
+        }
+      }
+    </script>
+  </body>
+</html>
