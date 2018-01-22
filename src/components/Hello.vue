@@ -1,6 +1,7 @@
 <template>
 	<div class="hello">
 		<h1>What did you have for breakfast?</h1>
+		<router-link to="three">3-way slider</router-link>
 	</div>
 </template>
 
