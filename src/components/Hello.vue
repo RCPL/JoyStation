@@ -1,7 +1,8 @@
 <template>
 	<div class="hello">
-		<h1>What did you have for breakfast?</h1>
-		<router-link to="three">3-way slider</router-link>
+		<h1>JoyStation Demo Menu Yay</h1>
+		<router-link to="three">3-way which way?</router-link>
+		<router-link to="face">how you feelin?</router-link>
 	</div>
 </template>
 
