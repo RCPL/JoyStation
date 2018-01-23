@@ -1,6 +1,6 @@
 {
   "name": "joystation",
-  "description": null,
+  "description": "a kiosk for determining customer satisfaction",
   "version": "0.0.93",
   "dependencies": {
     "vue-router": "3.0.1",
