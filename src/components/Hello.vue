@@ -1,16 +1,12 @@
 <template>
 	<div class="hello">
 		<h1>JoyStation Demo Menu Yay</h1>
-		<router-link to="three">3-way which way?</router-link>
-		<router-link to="face">how you feelin?</router-link>
 	</div>
 </template>
 
 <script>
-
 	export default {
 		name: 'hello',
-
 		data () {
 			return {
 				msg: 'Welcome to Your Vue.js App'

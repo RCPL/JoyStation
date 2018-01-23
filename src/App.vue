@@ -1,13 +1,15 @@
 <template>
 	<div id="app">
-		<router-view></router-view>
+		<Debug />
+		<router-view />
 	</div>
 </template>
 
 <script>
-	
+	import Debug from './components/Debug'
 	export default {
-    name: 'app'
+		name: 'app',
+		components: {Debug}
   }
 </script>
 

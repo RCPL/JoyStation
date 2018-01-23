@@ -1,6 +1,6 @@
 <template>
 <div v-on="{mousedown:down, touchstart:down, mousemove:move, touchmove:move, mouseup:up, touchend:up}">
-  <svg width="100%" height="500" viewBox="0 -100 400 500">
+  <svg width="100%" height="250" viewBox="0 -100 400 300">
     <ellipse
       id="eyeLeft"
       cx="90.654274"
