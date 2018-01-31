@@ -12,12 +12,12 @@
 </script>
 
 <style lang="scss" scoped>
-  nav{
+  nav {
     background-color:rgb(255, 166, 0);
     line-height: 1.5em;
     
   }
-  a{
+  a {
     color: white;
     text-decoration: none;
     padding: 0 0.25em;

@@ -1,6 +1,6 @@
 <template>
-<div v-on="{mousedown:down, touchstart:down, mousemove:move, touchmove:move, mouseup:up, touchend:up}">
-  <svg width="100%" height="250" viewBox="0 -100 400 300">
+<div >
+  <svg width="100%" height="400" viewBox="0 -100 400 350" v-on="{mousedown:down, touchstart:down, mousemove:move, touchmove:move, mouseup:up, touchend:up}">
     <ellipse
       id="eyeLeft"
       cx="90.654274"
@@ -15,10 +15,11 @@
       cx="309.15433"/>
     <path
       id="mouth"
-      d="m 62.76065,144.74727 c 88.09881,35.37553 188.39534,34.00525 282.42293,1.16224"/>   
+      :d="mouthData"/>   
   </svg>
-  <br>
-  <input v-model="joy" type="number" value="123" />
+  <!-- <br> -->
+  <input v-model="joy" type="range" value="12" min="-1" max="1" step="0.001" />
+  <input v-model="joy" type="number" />
   </div>
 </template>
 
@@ -36,6 +37,11 @@ export default {
       whateverTheOppositeOfJoyIs: 0
     }
   },
+  computed: {
+    mouthData() {
+      return `M 60,140  C 90,${this.joy*80+140} 310,${this.joy*80+140}  340,140`
+    }
+  },
   methods: {
     down: function(e){
       e.preventDefault();
@@ -45,7 +51,8 @@ export default {
     },
     move: function(e){
       if(pressed){
-        thisPoint = Vec2(e.pageX, e.pageY);
+        console.log(e);
+        thisPoint = Vec2(e.pageX, e.offsetY/400*2-1);
         // this.x = thisPoint.x;
         this.joy = thisPoint.y;
       }
