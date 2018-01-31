@@ -1,6 +1,5 @@
 <template>
 <div>
-  
   <svg width="768" height="900" viewBox="0 -100 400 350" v-on="{mousedown:down, touchstart:down, mousemove:move, touchmove:move, mouseup:up, touchend:up}">
     <ellipse
       id="eyeLeft"
@@ -19,19 +18,20 @@
       :d="mouthData"/>   
   </svg>
   
-  <!-- <br> -->
-  <input v-model="joy" type="range" value="12" min="-1" max="1" step="0.001" />
-  <input v-model="joy" type="number" />
-  </div>
+  <RangeSlider2 v-model="joy" />
+</div>
 </template>
 
 <script>
+import RangeSlider2 from './RangeSlider2'
+
 let pressed = false;
 const Vec2 = require('vec2');
 let thisPoint = Vec2(150,165);
 // import {down, move, up} from '../touch-tracking'
 export default {
   name: 'face',
+  components: {RangeSlider2},
   data() {
     return {
       activated: false,

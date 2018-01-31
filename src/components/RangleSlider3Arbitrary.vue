@@ -24,7 +24,7 @@
   let pressed = false;
 
   export default {
-    name: 'three-way-slider',
+    name: 'three-way-slider-arbitrary',
     data: function() {
       return {
         x:150,

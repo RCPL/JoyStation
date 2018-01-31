@@ -5,9 +5,7 @@
 <script>
 export default {
   name: 'RangeSlider2',
-  data: {
-    value: 0
-  }
+  props: ['value']
 }
 </script>
 
