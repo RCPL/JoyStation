@@ -1,6 +1,6 @@
 <template>
-	<div id="app">
-		<Debug />
+	<div ref="vueRoot">
+		<Debug v-if="debug" />
 		<router-view />
 	</div>
 </template>
@@ -9,6 +9,7 @@
 	import Debug from './components/Debug'
 	export default {
 		name: 'app',
+		props: ['debug'],
 		components: {Debug}
   }
 </script>
