@@ -2,6 +2,7 @@
   <nav>
     <router-link to="three">3-way which way?</router-link>
 		<router-link to="face">how you feelin?</router-link>
+    <router-link to="two">Side to side</router-link>
   </nav>
 </template>
 

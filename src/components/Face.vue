@@ -1,6 +1,7 @@
 <template>
-<div >
-  <svg width="100%" height="400" viewBox="0 -100 400 350" v-on="{mousedown:down, touchstart:down, mousemove:move, touchmove:move, mouseup:up, touchend:up}">
+<div>
+  
+  <svg width="768" height="900" viewBox="0 -100 400 350" v-on="{mousedown:down, touchstart:down, mousemove:move, touchmove:move, mouseup:up, touchend:up}">
     <ellipse
       id="eyeLeft"
       cx="90.654274"
@@ -17,6 +18,7 @@
       id="mouth"
       :d="mouthData"/>   
   </svg>
+  
   <!-- <br> -->
   <input v-model="joy" type="range" value="12" min="-1" max="1" step="0.001" />
   <input v-model="joy" type="number" />
@@ -52,9 +54,9 @@ export default {
     move: function(e){
       if(pressed){
         console.log(e);
-        thisPoint = Vec2(e.pageX, e.offsetY/400*2-1);
+        thisPoint = Vec2(e.pageX, e.pageY);
         // this.x = thisPoint.x;
-        this.joy = thisPoint.y;
+        this.joy = thisPoint.y / 900 * 2 - 1;
       }
     },
     up: function(e){
