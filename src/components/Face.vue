@@ -1,8 +1,8 @@
 <template>
 <div class="component">
-  <p>How was the library today?</p>
+  <p>How are you today?</p>
 
-  <svg width="768" height="768" viewBox="0 -100 400 350" @mousedown="down" @mousemove="move" @mouseup="up" @touchstart="down" @touchmove="move" @touchend="up">
+  <svg width="768" height="500" viewBox="0 -50 400 300" @mousedown="down" @mousemove="move" @mouseup="up" @touchstart="down" @touchmove="move" @touchend="up">
     <ellipse
       id="eyeLeft"
       cx="90.654274"
@@ -20,11 +20,13 @@
       :d="mouthData"/>
   </svg>
   
-  <div class="cushion-sides">
-    <input type="range" min="-1" max="1" step="0.0001" v-model="joy">
+  <div class="cushion">
+    <input type="range" min="-1" max="1" step="0.0001" v-model="joy" @mouseup="activated = true">
   </div>
 
-  <button>Done</button>
+  <div class="cushion-sides">
+    <button v-if="activated">📨 Send </button>
+  </div>
 </div>
 </template>
 
@@ -51,30 +53,43 @@ export default {
     }
   },
   methods: {
-    down: function(e){
+    down(e){
       e.preventDefault();
       pressed = true;
       this.activated = true;
       this.move(e);
     },
-    move: function(e){
+    move(e){
       if(pressed){
         // console.log(e);
         thisPoint = Vec2(e.pageX, e.pageY);
         // this.x = thisPoint.x;
-        this.joy = thisPoint.y / 900 * 2 - 1;
+        this.joy = thisPoint.y / 768 * 2 - 1;
       }
     },
-    up: function(e){
+    up(e){
       pressed = false;
+    },
+    done () {
+
     }
   }
 }
 </script>
 
 <style lang="scss" scoped>
+
+
   .component {
     // background-color:yellow;
+    display:flex;
+    flex-direction:column;
+    text-align:center;
+  }
+
+  p{
+    font-size:250%;
+    
   }
 
   path, ellipse{
@@ -137,4 +152,14 @@ export default {
   }
 }
 
+button{
+  width:100%;
+  font-size:320%;
+  border:0;
+  border-radius: 0.45em;
+  padding: 0.1em 0.2em;
+  background-color:rgb(79, 145, 243);
+  color:white;
+  font-weight:800;
+}
 </style>

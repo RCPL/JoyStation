@@ -16,10 +16,12 @@
 
 <style>
 html{
+	height:100%;
 	background-color:black;
 	font-size:18px;
 }
 body{
+	height:100%;
 	background-color: rgb(238, 243, 231);
 	/* border:solid 20px black; */
 	border-radius: 40px;

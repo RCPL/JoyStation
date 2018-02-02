@@ -12,7 +12,7 @@ var vm = new Vue({
   router,
   template: '<App :debug="debug" />',
   components: { App },
-  data: { debug:true },
+  data: { debug:false },
   methods: {
     toggleDebug() {
       this.debug = !this.debug
