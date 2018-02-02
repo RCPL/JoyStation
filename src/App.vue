@@ -15,8 +15,14 @@
 </script>
 
 <style>
-html{font-size:18px;}
+html{
+	background-color:black;
+	font-size:18px;
+}
 body{
+	background-color: rgb(238, 243, 231);
+	/* border:solid 20px black; */
+	border-radius: 40px;
 	margin:0;
 	font-family: 'Berkshire Swash', cursive;
 	font-size:calc(0.8rem + 1.75vmin);

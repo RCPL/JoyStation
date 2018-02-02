@@ -1,6 +1,8 @@
 <template>
-<div>
-  <svg width="768" height="900" viewBox="0 -100 400 350" @mousedown="down" @mousemove="move" @mouseup="up" @touchstart="down" @touchmove="move" @touchend="up">
+<div class="component">
+  <p>How was the library today?</p>
+
+  <svg width="768" height="768" viewBox="0 -100 400 350" @mousedown="down" @mousemove="move" @mouseup="up" @touchstart="down" @touchmove="move" @touchend="up">
     <ellipse
       id="eyeLeft"
       cx="90.654274"
@@ -18,7 +20,9 @@
       :d="mouthData"/>
   </svg>
   
-  <input type="range" min="-1" max="1" step="0.0001" v-model="joy">
+  <div class="cushion-sides">
+    <input type="range" min="-1" max="1" step="0.0001" v-model="joy">
+  </div>
 
   <button>Done</button>
 </div>
@@ -68,7 +72,11 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped>  
+<style lang="scss" scoped>
+  .component {
+    // background-color:yellow;
+  }
+
   path, ellipse{
     fill:none;
     stroke:#125c72;
@@ -90,20 +98,20 @@ export default {
     cursor: pointer;
     animate: 0.2s;
     box-shadow: 0px 0px 0px #000000, 0px 0px 0px #0d0d0d;
-    background: #ac51b5;
+    background: #b6df9b;
     border-radius: 25px;
     border: 0px solid #000101;
   }
   &::-webkit-slider-thumb {
     box-shadow: 0px 0px 0px #000000, 0px 0px 0px #0d0d0d;
     border: 0px solid #000000;
-    height: 20px;
-    width: 39px;
-    border-radius: 7px;
-    background: #65001c;
+    height: 40px;
+    width: 40px;
+    border-radius: 20px;
+    background: #4a608f;
     cursor: pointer;
     -webkit-appearance: none;
-    margin-top: -3.6px;
+    margin-top: -14px;
   }
   &:focus::-webkit-slider-runnable-track {
     background: #ac51b5;
