@@ -29,7 +29,7 @@ body{
 	height:100%;
 	background-color: rgb(238, 243, 231);
 	/* border:solid 20px black; */
-	border-radius: 40px;
+	border-radius: 30px;
 	margin:0;
 	font-family: 'Berkshire Swash', cursive;
 	font-size:calc(0.8rem + 1.75vmin);
