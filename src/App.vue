@@ -1,5 +1,5 @@
 <template>
-	<div ref="vueRoot">
+	<div class="vueRoot">
 		<Debug v-if="debug" />
 		<router-view />
 	</div>
@@ -15,6 +15,11 @@
 </script>
 
 <style>
+.vueRoot{
+	display:flex;
+	flex-direction: column;
+	height:100%;
+}
 html{
 	height:100%;
 	background-color:black;

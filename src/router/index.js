@@ -33,9 +33,13 @@ export default new Router({
       component: Tags
     },
     {
+      path: '/done',
+      component: Done
+    },
+    {
       path: '/',
       name: 'right nauw',
-      component: Done
+      component: Face
     }
   ]
 })

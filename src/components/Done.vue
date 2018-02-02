@@ -1,6 +1,6 @@
 <template>
   <div class="backplate">
-    <h1>Thanks!</h1>
+    <p>Thanks!</p>
   </div>
 </template>
 
@@ -9,7 +9,9 @@
 
 <style lang="scss" scoped>
 .backplate{
-  background-color:rgb(0, 192, 192);
+  height:100%;
+  background-color:rgb(0, 122, 192);
   color:white;
+  font-size:250%;
 }
 </style>

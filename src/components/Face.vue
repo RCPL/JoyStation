@@ -1,32 +1,40 @@
 <template>
 <div class="component">
-  <p>How are you today?</p>
+  <div v-if="answerMode">
+    <p>How are you today?</p>
 
-  <svg width="768" height="500" viewBox="0 -50 400 300" @mousedown="down" @mousemove="move" @mouseup="up" @touchstart="down" @touchmove="move" @touchend="up">
-    <ellipse
-      id="eyeLeft"
-      cx="90.654274"
-      cy="11.090343"
-      rx="14.882919"
-      ry="12.558451"/>
-    <ellipse
-      id="eyeRight"
-      ry="12.558451"
-      rx="14.882919"
-      cy="9.9281092"
-      cx="309.15433"/>
-    <path
-      id="mouth"
-      :d="mouthData"/>
-  </svg>
+    <svg width="768" height="500" viewBox="0 -50 400 300" @mousedown="down" @mousemove="move" @mouseup="up" @touchstart="down" @touchmove="move" @touchend="up">
+      <ellipse
+        id="eyeLeft"
+        cx="90.654274"
+        cy="11.090343"
+        rx="14.882919"
+        ry="12.558451"/>
+      <ellipse
+        id="eyeRight"
+        ry="12.558451"
+        rx="14.882919"
+        cy="9.9281092"
+        cx="309.15433"/>
+      <path
+        id="mouth"
+        :d="mouthData"/>
+    </svg>
+    
+    <div class="cushion">
+      <input type="range" min="-1" max="1" step="0.0001" v-model="joy" @mouseup="activated = true">
+    </div>
+
+    <div class="cushion-sides">
+      <button v-if="activated" @click="done">📨 Send </button>
+    </div>
+  </div>
+  <div v-else style="align-content: space-evenly; height:100%;">
+    <p>Thanks!</p>
+    <img src="/static/logo-md.svg">
+  </div>
+
   
-  <div class="cushion">
-    <input type="range" min="-1" max="1" step="0.0001" v-model="joy" @mouseup="activated = true">
-  </div>
-
-  <div class="cushion-sides">
-    <button v-if="activated">📨 Send </button>
-  </div>
 </div>
 </template>
 
@@ -42,6 +50,7 @@ export default {
   // components: {RangeSlider2},
   data() {
     return {
+      answerMode: true,
       activated: false,
       joy: 0,
       whateverTheOppositeOfJoyIs: 0
@@ -71,7 +80,22 @@ export default {
       pressed = false;
     },
     done () {
+      const todaysQuestion = "How are you today?"
+      const todaysLocation = "Main"
+      const thisAction = 'Face v1'
+      ga(
+        'send', //command
+        'event', //hitType
+        todaysQuestion, //eventCategory
+        thisAction, //eventAction
+        todaysLocation, //eventLabel
+        this.joy //eventValue
+      );
 
+      this.joy = 0;
+      this.activated = false;
+      this.answerMode = false;
+      setTimeout(()=>{this.answerMode = true}, 30000)
     }
   }
 }
@@ -85,6 +109,7 @@ export default {
     display:flex;
     flex-direction:column;
     text-align:center;
+    height:100%;
   }
 
   p{
