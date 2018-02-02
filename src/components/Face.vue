@@ -22,11 +22,11 @@
     </svg>
     
     <div class="cushion">
-      <input type="range" min="-1" max="1" step="0.0001" v-model="joy" @mouseup="activated = true">
+      <input type="range" min="-1" max="1" step="0.0001" v-model="joy" @mouseup="activated=true" @touchstart="activated=true">
     </div>
 
     <div class="cushion-sides">
-      <button v-if="activated" @click="done">📨 Send </button>
+      <button v-if="activated" @click="done">Send</button>
     </div>
   </div>
   <div v-else style="align-content: space-evenly; height:100%;">
@@ -52,7 +52,7 @@ export default {
     return {
       answerMode: true,
       activated: false,
-      joy: 0,
+      joy: 0.5,
       whateverTheOppositeOfJoyIs: 0
     }
   },
@@ -89,10 +89,12 @@ export default {
         todaysQuestion, //eventCategory
         thisAction, //eventAction
         todaysLocation, //eventLabel
-        this.joy //eventValue
+        Math.round(this.joy * 100) //eventValue
       );
 
-      this.joy = 0;
+      console.log(ga);
+
+      this.joy = 0.5;
       this.activated = false;
       this.answerMode = false;
       setTimeout(()=>{this.answerMode = true}, 30000)
@@ -179,7 +181,7 @@ export default {
 
 button{
   width:100%;
-  font-size:320%;
+  font-size:300%;
   border:0;
   border-radius: 0.45em;
   padding: 0.1em 0.2em;
