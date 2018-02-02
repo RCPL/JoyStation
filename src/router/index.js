@@ -4,6 +4,7 @@ import Hello from '../components/Hello'
 import Face from '../components/Face'
 import RangeSlider3 from '../components/RangeSlider3'
 import RangeSlider2 from '../components/RangeSlider2'
+import Tags from '../components/Tags'
 
 Vue.use(Router)
 
@@ -24,6 +25,11 @@ export default new Router({
       path: '/two',
       name: 'Two Way Slider',
       component: RangeSlider2
+    },
+    {
+      path: '/tags',
+      name: 'Tags',
+      component: Tags
     },
     {
       path: '/',
