@@ -80,19 +80,17 @@ export default {
       pressed = false;
     },
     done () {
-      const todaysQuestion = "How are you today?"
-      const todaysLocation = "Main"
-      const thisAction = 'Face v1'
-      ga(
-        'send', //command
-        'event', //hitType
-        todaysQuestion, //eventCategory
-        thisAction, //eventAction
-        todaysLocation, //eventLabel
-        Math.round(this.joy * 100) //eventValue
-      );
+      let eventOptions = {
+        value: Math.round(this.joy * 100),
+        currency: 'JOY',
+        items: ['fast','fresh'],
+        coupon: 'slc',
+        checkout_step: 1,
+        checkout_option:'face'
+      };
+      gtag('event', 'checkout_progress', eventOptions);
 
-      console.log(ga);
+      // console.log('sending event???',eventOptions)
 
       this.joy = 0.5;
       this.activated = false;
