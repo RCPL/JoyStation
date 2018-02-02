@@ -12,7 +12,7 @@ var vm = new Vue({
   router,
   template: '<App :debug="debug" />',
   components: { App },
-  data: { debug:true },
+  data: { debug:false },
   methods: {
     toggleDebug() {
       this.debug = !this.debug
@@ -21,7 +21,7 @@ var vm = new Vue({
 })
 
 document.body.addEventListener("keypress", (e) => {
-  console.log(e.keyCode);
+  // console.log(e.keyCode);
   if(e.keyCode === 96) {
     e.preventDefault();
     vm.toggleDebug();

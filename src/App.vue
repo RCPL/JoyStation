@@ -18,7 +18,7 @@
 html{font-size:18px;}
 body{
 	margin:0;
-	
+	font-family: 'Berkshire Swash', cursive;
 	font-size:calc(0.8rem + 1.75vmin);
 }
 </style>

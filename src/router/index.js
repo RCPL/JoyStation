@@ -5,6 +5,7 @@ import Face from '../components/Face'
 import RangeSlider3 from '../components/RangeSlider3'
 import RangeSlider2 from '../components/RangeSlider2'
 import Tags from '../components/Tags'
+import Done from '../components/Done'
 
 Vue.use(Router)
 
@@ -34,7 +35,7 @@ export default new Router({
     {
       path: '/',
       name: 'right nauw',
-      component: Hello
+      component: Done
     }
   ]
 })
