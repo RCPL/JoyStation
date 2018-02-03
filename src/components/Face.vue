@@ -1,7 +1,7 @@
 <template>
 <div class="component">
   <div v-if="answerMode">
-    <p>How are you today?</p>
+    <p>Do you like our new space?</p>
 
     <svg width="768" height="500" viewBox="0 -50 400 300" @mousedown="down" @mousemove="move" @mouseup="up" @touchstart="down" @touchmove="move" @touchend="up">
       <ellipse
@@ -26,7 +26,7 @@
     </div>
 
     <div class="cushion-sides">
-      <button v-if="activated" @click="done">Send</button>
+      <button v-if="activated" @touchstart="done">Send</button>
     </div>
   </div>
   <div v-else style="align-content: space-evenly; height:100%;">
@@ -79,12 +79,13 @@ export default {
     up(e){
       pressed = false;
     },
-    done () {
+    done(e) {
+      e.preventDefault();
       let eventOptions = {
         value: Math.round(this.joy * 100),
         currency: 'JOY',
-        items: ['fast','fresh'],
-        coupon: 'slc',
+        items: [],
+        coupon: "Garden Level Opening: Do you like our new space?",
         checkout_step: 1,
         checkout_option:'face'
       };
@@ -95,7 +96,7 @@ export default {
       this.joy = 0.5;
       this.activated = false;
       this.answerMode = false;
-      setTimeout(()=>{this.answerMode = true}, 30000)
+      setTimeout(()=>{this.answerMode = true}, 20000)
     }
   }
 }
@@ -113,7 +114,7 @@ export default {
   }
 
   p{
-    font-size:250%;
+    font-size:200%;
     
   }
 
@@ -134,7 +135,7 @@ export default {
   }
   &::-webkit-slider-runnable-track {
     width: 100%;
-    height: 12.8px;
+    height: 30px;
     cursor: pointer;
     animate: 0.2s;
     box-shadow: 0px 0px 0px #000000, 0px 0px 0px #0d0d0d;
@@ -145,35 +146,16 @@ export default {
   &::-webkit-slider-thumb {
     box-shadow: 0px 0px 0px #000000, 0px 0px 0px #0d0d0d;
     border: 0px solid #000000;
-    height: 40px;
-    width: 40px;
-    border-radius: 20px;
+    height: 90px;
+    width: 90px;
+    border-radius: 45px;
     background: #4a608f;
     cursor: pointer;
     -webkit-appearance: none;
-    margin-top: -14px;
+    margin-top: -34px;
   }
   &:focus::-webkit-slider-runnable-track {
     background: #ac51b5;
-  }
-  &::-moz-range-track {
-    width: 100%;
-    height: 12.8px;
-    cursor: pointer;
-    animate: 0.2s;
-    box-shadow: 0px 0px 0px #000000, 0px 0px 0px #0d0d0d;
-    background: #ac51b5;
-    border-radius: 25px;
-    border: 0px solid #000101;
-  }
-  &::-moz-range-thumb {
-    box-shadow: 0px 0px 0px #000000, 0px 0px 0px #0d0d0d;
-    border: 0px solid #000000;
-    height: 20px;
-    width: 39px;
-    border-radius: 7px;
-    background: #65001c;
-    cursor: pointer;
   }
 }
 
