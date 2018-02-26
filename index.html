@@ -1,0 +1,104 @@
+<!doctype html>
+<html>
+  <head>
+    <title>JoyStation Static</title>
+    <meta charset="utf-8">
+    <meta content="width=device-width,user-scalable=no" name="viewport">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <link rel="shortcut icon" type="image/png" href="favicon.png">
+    <link rel="apple-touch-icon" href="favicon.png">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.5.13/vue.min.js"></script>
+  </head>
+
+  <body>
+    <div id="app">
+      <div v-if="answerMode">
+        <p>Do you like our new space?</p>
+
+        <svg width="768" height="500" viewBox="0 -50 400 300" @mousedown="down" @mousemove="move" @mouseup="up" @touchstart="down" @touchmove="move" @touchend="up">
+          <ellipse
+            id="eyeLeft"
+            cx="90.654274"
+            cy="11.090343"
+            rx="14.882919"
+            ry="12.558451"/>
+          <ellipse
+            id="eyeRight"
+            ry="12.558451"
+            rx="14.882919"
+            cy="9.9281092"
+            cx="309.15433"/>
+          <path
+            id="mouth"
+            :d="mouthData"/>
+        </svg>
+        
+        <div class="cushion">
+          <input type="range" min="-1" max="1" step="0.0001" v-model="joy" @mouseup="activated=true" @touchstart="activated=true">
+        </div>
+
+        <div class="cushion-sides">
+          <button v-if="activated" @touchstart="done">Send</button>
+        </div>
+      </div>
+      <div v-else style="align-content: space-evenly; height:100%;">
+        <p>Thanks!</p>
+        <!-- <img src="/static/logo-md.svg"> -->
+      </div>
+    </div>
+    <script>
+      var app = new Vue({
+        el: '#app',
+        data:{
+          answerMode: true,
+          joy: 1,
+          activated: false
+        },
+        computed: {
+          mouthData() {
+            return `M 60,140  C 90,${this.joy*80+140} 310,${this.joy*80+140}  340,140`
+          }
+        },
+        methods: {
+          down(e){
+            e.preventDefault();
+            pressed = true;
+            this.activated = true;
+            this.move(e);
+          },
+          move(e){
+            if(pressed){
+              // console.log(e);
+              thisPoint = Vec2(e.pageX, e.pageY);
+              // this.x = thisPoint.x;
+              this.joy = thisPoint.y / 768 * 2 - 1;
+            }
+          },
+          up(e){
+            pressed = false;
+          },
+          done(e) {
+            e.preventDefault();
+            let eventOptions = {
+              value: Math.round(this.joy * 100),
+              currency: 'JOY',
+              items: [],
+              coupon: "Garden Level Opening: Do you like our new space?",
+              checkout_step: 1,
+              checkout_option:'face'
+            };
+            gtag('event', 'checkout_progress', eventOptions);
+
+            // console.log('sending event???',eventOptions)
+
+            this.joy = 0.5;
+            this.activated = false;
+            this.answerMode = false;
+            setTimeout(()=>{this.answerMode = true}, 20000)
+          }
+        }
+      });
+    </script>
+  </body>
+</html>
