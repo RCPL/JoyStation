@@ -9,6 +9,7 @@
     <link rel="shortcut icon" type="image/png" href="favicon.png">
     <link rel="apple-touch-icon" href="favicon.png">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.5.13/vue.min.js"></script>
+    <script src="lib/vec2/vec2.min.js"></script>
   </head>
 
   <body>
@@ -48,6 +49,8 @@
       </div>
     </div>
     <script>
+      let pressed = false;
+      let thisPoint = Vec2(150,165);
       var app = new Vue({
         el: '#app',
         data:{

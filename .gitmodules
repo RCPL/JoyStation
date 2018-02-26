@@ -1,0 +1,3 @@
+[submodule "lib/vec2"]
+	path = lib/vec2
+	url = https://github.com/tmpvar/vec2.js.git
