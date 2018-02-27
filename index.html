@@ -5,17 +5,21 @@
     <meta charset="utf-8">
     <meta content="width=device-width,user-scalable=no" name="viewport">
     <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <link rel="shortcut icon" type="image/png" href="favicon.png">
     <link rel="apple-touch-icon" href="favicon.png">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.5.13/vue.min.js"></script>
     <script src="lib/vec2/vec2.min.js"></script>
+    <script src="https://github.com/hsluv/hsluv/releases/download/v0.0.1/hsluv.min.js"></script>
   </head>
 
   <body>
     <div id="app">
       <div v-if="answerMode">
         <p>Do you like our new space?</p>
+
+        <input type="number" v-model="w">
+        <input type="number" v-model="h">
 
         <svg width="768" height="500" viewBox="0 -50 400 300" @mousedown="down" @mousemove="move" @mouseup="up" @touchstart="down" @touchmove="move" @touchend="up">
           <ellipse
@@ -36,7 +40,7 @@
         </svg>
         
         <div class="cushion">
-          <input type="range" min="-1" max="1" step="0.0001" v-model="joy" @mouseup="activated=true" @touchstart="activated=true">
+          <input type="range" min="-2" max="3" step="0.0001" v-model="joy" @mouseup="activated=true" @touchstart="activated=true">
         </div>
 
         <div class="cushion-sides">
@@ -49,6 +53,26 @@
       </div>
     </div>
     <script>
+      /* JoyStation Logic pseudo-code walkthrough
+
+      Compare screen dimensions to viewport dimensions
+        If they don't match up, prompt admin settings
+      If in admin mode show admin panel
+        allow changing of the question, location, context, delay, etc
+        allow changing of google analytics tracking code
+      If in regular mode
+        if in prompt mode
+          allow vertical swiping on face to change joy value
+          allow horizontal slider to change joy value
+          if joy value has been changed
+            show submit button
+            if button is pressed
+              switch to thanks mode
+        If in thanks mode
+          display "thanks"
+          switch back to prompt mode after the delay completes.
+      */
+
       let pressed = false;
       let thisPoint = Vec2(150,165);
       var app = new Vue({
@@ -61,6 +85,12 @@
         computed: {
           mouthData() {
             return `M 60,140  C 90,${this.joy*80+140} 310,${this.joy*80+140}  340,140`
+          },
+          w() {
+            return window.screen.availWidth
+          },
+          h() {
+            return window.screen.availHeight
           }
         },
         methods: {
