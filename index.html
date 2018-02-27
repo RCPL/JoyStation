@@ -14,6 +14,10 @@
     <style>
       html{
         font-size:8vmin;
+        background-color:#fff07e;
+      }
+      .face{
+        fill:#19333f;
       }
     </style>
   </head>
@@ -27,19 +31,19 @@
         <input type="number" v-model="h">
 
         <svg width="768" height="500" viewBox="0 -50 400 300" @mousedown="down" @mousemove="move" @mouseup="up" @touchstart="down" @touchmove="move" @touchend="up">
-          <ellipse
+          <ellipse class="face"
             id="eyeLeft"
             cx="90.654274"
             cy="11.090343"
             rx="14.882919"
             ry="12.558451"/>
-          <ellipse
+          <ellipse class="face"
             id="eyeRight"
             ry="12.558451"
             rx="14.882919"
             cy="9.9281092"
             cx="309.15433"/>
-          <path
+          <path class="face"
             id="mouth"
             :d="mouthData"/>
         </svg>
