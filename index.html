@@ -113,22 +113,22 @@
           },
           done(e) {
             e.preventDefault();
-            var eventOptions = {
-              value: Math.round(this.joy * 100),
-              currency: 'JOY',
-              items: [],
-              coupon: "Garden Level Opening: Do you like our new space?",
-              checkout_step: 1,
-              checkout_option:'face'
-            };
-            gtag('event', 'checkout_progress', eventOptions);
+            // var eventOptions = {
+            //   value: Math.round(this.joy * 100),
+            //   currency: 'JOY',
+            //   items: [],
+            //   coupon: "Garden Level Opening: Do you like our new space?",
+            //   checkout_step: 1,
+            //   checkout_option:'face'
+            // };
+            // gtag('event', 'checkout_progress', eventOptions);
 
             // console.log('sending event???',eventOptions)
 
             this.joy = 0.5;
             this.activated = false;
             this.answerMode = false;
-            setTimeout(()=>{this.answerMode = true}, 20000)
+            setTimeout(function(){this.answerMode = true}, 20000)
           }
         }
       });
