@@ -29,6 +29,7 @@
       #app{
         display:flex;
         flex-direction:row;
+        height:100vh;
       }
 
       .cushion-sides{
@@ -107,6 +108,17 @@
       }
       .admin label{
         margin-bottom:1em;
+      }
+
+      .thanks{
+        /* display:flex;
+        flex-direction:column; */
+        font-size:2rem;
+        font-family: 'Berkshire Swash', cursive;
+        /* text-align: center; */
+        align-content: space-evenly;
+        height:100%;
+        margin:0 auto;
       }
 
       button{
@@ -201,7 +213,7 @@
           <button v-if="activated" @touchstart="done" @mouseup="done">Send</button>
         </div>
       </div>
-      <div v-else style="align-content: space-evenly; height:100%;">
+      <div v-else class="thanks">
         <p>Thanks!</p>
         <img src="logo-md.svg">
       </div>
@@ -385,6 +397,14 @@
             // gtag('event', 'checkout_progress', eventOptions);
 
             // console.log('sending event???',eventOptions)
+
+            ga('create', 'UA-36679089-5', 'auto', 'master');
+            ga('create', this.analyticsKey, 'auto', 'user');
+
+            ga('master.send','event',this.category, this.action, this.label, this.joy, {test: 123, anotherTest: "pineapple"})
+            ga('user.send','event',this.category, this.action, this.label, this.joy, {test: 123, anotherTest: "pineapple"})
+
+            
 
 
             this.joy = this.joyDefault;
