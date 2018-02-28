@@ -9,6 +9,7 @@
     <link rel="shortcut icon" type="image/png" href="favicon.png">
     <link rel="apple-touch-icon" href="favicon.png">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.5.13/vue.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue-ls/2.3.3/vue-ls.min.js"></script>
     <script src="lib/vec2/vec2.min.js"></script>
     <!-- <script src="https://github.com/hsluv/hsluv/releases/download/v0.0.1/hsluv.min.js"></script> -->
     <style>
@@ -180,6 +181,9 @@
 
       var pressed = false;
       var thisPoint = Vec2(150,165);
+
+      Vue.use(VueLocalStorage)
+
       var app = new Vue({
         el: '#app',
         data:{
@@ -192,6 +196,18 @@
           action:'',
           label:'',
           analyticsKey:''
+        },
+        watch: {
+          joyDefault: function(val) {
+            this.$ls.set('action',val)
+          }
+        },
+        created: function() {
+          this.action = this.$ls.get('action', '');
+          var self = this;
+          this.$ls.on('action', function(val) {
+            self.counter = val;
+          });
         },
         computed: {
           adminMode() {
