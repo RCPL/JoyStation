@@ -95,17 +95,17 @@
         background: linear-gradient(to right, #1e5799 0%,#7db9e8 100%);
       }
 
-      #admin{
+      .admin{
         background-color:white;
         font-size: 18px;
         font-family: Helvetica;
       }
-      #admin form{
+      .admin form{
         display:flex;
         flex-direction: column;
         overflow-x:scroll;
       }
-      #admin label{
+      .admin label{
         margin-bottom:1em;
       }
 
@@ -125,7 +125,7 @@
   <body>
     <div id="app">
 
-      <div id="admin" class="cushion-sides" v-if="adminMode">
+      <div v-if="adminMode" class="admin cushion-sides">
         <h1>Settings</h1>
         
         <form>
@@ -358,7 +358,7 @@
             this.answerMode = false;
 
             var self = this;
-            setTimeout(function(){self.answerMode = true}, self.thanksDelay);
+            setTimeout(function(){self.answerMode = true}, Number(self.thanksDelay) * 1000);
             
             console.log('done')
           },
