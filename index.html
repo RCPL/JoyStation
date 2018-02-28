@@ -26,6 +26,19 @@
         margin:0;
       }
 
+      #app{
+        display:flex;
+        flex-direction:row;
+      }
+
+      .cushion-sides{
+        padding: 0 0.5rem;
+      }
+
+      .cushion{
+        padding: 0.5rem;
+      }
+
       .prompt {
         font-family: 'Berkshire Swash', cursive;
         text-align:center;
@@ -84,6 +97,27 @@
 
       #admin{
         background-color:white;
+        font-size: 18px;
+        font-family: Helvetica;
+      }
+      #admin form{
+        display:flex;
+        flex-direction: column;
+        overflow-x:scroll;
+      }
+      #admin label{
+        margin-bottom:1em;
+      }
+
+      button{
+        width:100%;
+        font-size:1.5rem;
+        border:0;
+        border-radius: 0.45rem;
+        padding: 0.1rem 0.2rem;
+        background-color:rgb(79, 145, 243);
+        color:white;
+        font-weight:800;
       }
     </style>
   </head>
@@ -91,15 +125,40 @@
   <body>
     <div id="app">
 
-      <div id="admin" v-if="adminMode">
+      <div id="admin" class="cushion-sides">
         <h1>Settings</h1>
-        <input type="text" v-model="analyticsKey">
-        <input type="text" v-model="category">
-        <input type="text" v-model="action">
-        <input type="text" v-model="label">
-        <input type="number" v-model="joyDefault">
-        <input type="number" v-model="joy">
-        <input type="number" step="0.1" v-model="thanksDelay" min="0" max="500">
+        
+        <form>
+          <label>
+            <div>Prompt</div>
+            <input type="text" v-model="action" placeholder="That meeting was" size="20">
+          </label>
+          
+          <label>
+            <div>Category</div>
+            <input type="text" v-model="category" placeholder="staff" size="10">
+          </label>
+          
+          <label>
+            <div>Location</div>
+            <input type="text" v-model="label" placeholder="main" size="10">
+          </label>
+
+          <label>
+            <div>Joy Start</div>
+            <input type="number" v-model="joyDefault" size="10" min="-300" max="300">
+          </label>
+
+          <label>
+            <div>Thanks Delay</div>
+            <input type="number" v-model="thanksDelay" size="10" min="5" max="30">
+          </label>
+
+          <label>
+            <div>Analytics Key</div>
+            <input type="text" v-model="analyticsKey">
+          </label>
+        </form>
       </div>
 
       <div v-if="answerMode">
@@ -107,9 +166,9 @@
 
         <svg width="768" height="500" viewBox="0 -50 400 300" @mousedown="down" @mousemove="move" @mouseup="up" @touchstart="down" @touchmove="move" @touchend="up">
           <defs>
-              <marker id='head' orient='auto' markerWidth='4' markerHeight='4' refX='0' refY='2'>
-                <path d='M0,0 V4 L4,2 Z' />
-              </marker>
+            <marker id='head' orient='auto' markerWidth='4' markerHeight='4' refX='0' refY='2'>
+              <path d='M0,0 V4 L4,2 Z' />
+            </marker>
             <path id="negative2" d="
               M 95 -10   A 40,15,15  1 0  96,-10
               M 300 -10   A 40,15,345  1 0  301,-10
@@ -127,39 +186,24 @@
               M 280 -30   A 20,40,355  1 0  281,-30
               M 60,115  C 90,105 310,105  340,115  310,255 90,255  60,115 z"/>
           </defs>
-          <!-- <ellipse class="face"
-            id="eyeLeft"
-            cx="90.654274"
-            cy="11.090343"
-            rx="14.882919"
-            ry="12.558451"/>
-          <ellipse class="face"
-            id="eyeRight"
-            ry="12.558451"
-            rx="14.882919"
-            cy="9.9281092"
-            cx="309.15433"/> -->
           <path class="face"
             id="mouth"
             :d="mouthData"/>
-          <!-- <path class="face"
-            id="mouth"
-            d="M 60,220  C 90,90 310,90  340,220  310,200 90,200  60,220 z"/> -->
         </svg>
         
-        <div class="cushion">
+        <div class="cushion-sides">
           <div class="range-wrapper">
             <input class="mood-range" type="range" min="-200" max="200" v-model="joy" @mouseup="activated=true" @touchstart="activated=true">
           </div>
         </div>
 
-        <div class="cushion-sides">
+        <div class="cushion">
           <button v-if="activated" @touchstart="done" @mouseup="done">Send</button>
         </div>
       </div>
       <div v-else style="align-content: space-evenly; height:100%;">
         <p>Thanks!</p>
-        <!-- <img src="/static/logo-md.svg"> -->
+        <img src="logo-md.svg">
       </div>
     </div>
     <script>
@@ -221,7 +265,7 @@
           joyDefault: 50,
           joy: 200,
           activated: false,
-          thanksDelay: 2.000,
+          thanksDelay: 2.0,
           category: '',
           action:'never changed',
           label:'',
@@ -308,7 +352,8 @@
 
             // console.log('sending event???',eventOptions)
 
-            this.joy = 0.5;
+
+            this.joy = this.joyDefault;
             this.activated = false;
             this.answerMode = false;
 
