@@ -189,7 +189,7 @@
       var app = new Vue({
         el: '#app',
         data:{
-          adminMode: false,
+          // adminMode: false,
           answerMode: true,
           joyDefault: 50,
           joy: 50,
@@ -214,6 +214,9 @@
           });
         },
         computed: {
+          adminMode() {
+            return (window.orientation === 90) || (window.orientation === -90)
+          }
           mouthData() {
             // return `M 60,140  C 90,${this.joy*80+140} 310,${this.joy*80+140}  340,140`
             var svgDataPattern = /\d+|\w/g;
@@ -288,15 +291,15 @@
             console.log('done')
           },
           toggleAdmin() {
-            this.adminMode = (screen.orientation == 90) || (screen.orientation == -90);
-            console.log('turned screen',screen.orientation,this.adminMode);
+            this.adminMode = (window.orientation === 90) || (window.orientation === -90);
+            console.log('turned screen',window.orientation,this.adminMode);
           }
         }
         
       });
 
       window.addEventListener("orientationchange", function() {
-        app.toggleAdmin();
+        // app.toggleAdmin();
       });
     </script>
   </body>
