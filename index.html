@@ -227,6 +227,12 @@
           switch back to prompt mode after the delay completes.
       */
 
+      var svgDataPattern = /(-|\d)+|\w/g;
+      var negative2 = document.querySelector('#negative2').getAttributeNS(null,'d').match(svgDataPattern);
+      var negative1 = document.querySelector('#negative1').getAttributeNS(null,'d').match(svgDataPattern);
+      var positive1 = document.querySelector('#positive1').getAttributeNS(null,'d').match(svgDataPattern);
+      var positive2 = document.querySelector('#positive2').getAttributeNS(null,'d').match(svgDataPattern);
+
       function lerp(v0, v1, t) {
         return v0*(1-t)+v1*t
       }
@@ -260,16 +266,18 @@
       var app = new Vue({
         el: '#app',
         data:{
+          joy: 0,
           adminMode: false,
           answerMode: true,
-          joyDefault: 50,
-          joy: 200,
           activated: false,
-          thanksDelay: 2.0,
-          category: '',
-          action:'never changed',
-          label:'',
-          analyticsKey:''
+
+          analyticsKey:'',
+          action:'Question',
+          category: 'customers',
+          label:'main',
+
+          thanksDelay: 20.0,
+          joyDefault: 100
         },
         watch: {
           action: function(val) {
@@ -278,23 +286,49 @@
           }
         },
         created: function() {
-          this.action = Vue.ls.get('action', 'local storage default');
           var self = this;
+
+          // analyticsKey storage
+          this.analyticsKey = Vue.ls.get('analyticsKey', this.analyticsKey);
+          Vue.ls.on('analyticsKey', function(val) {
+            self.analyticsKey = val;
+          });
+          
+          // action storage
+          this.action = Vue.ls.get('action', this.action);
           Vue.ls.on('action', function(val) {
-            self.counter = val;
+            self.action = val;
+          });
+
+          // category storage
+          this.category = Vue.ls.get('category', this.category);
+          Vue.ls.on('category', function(val) {
+            self.category = val;
+          });
+
+          // label storage
+          this.label = Vue.ls.get('label', this.label);
+          Vue.ls.on('label', function(val) {
+            self.label = val;
+          });
+
+          // thanksDelay storage
+          this.thanksDelay = Vue.ls.get('thanksDelay', this.thanksDelay);
+          Vue.ls.on('thanksDelay', function(val) {
+            self.thanksDelay = val;
+          });
+
+          // joyDefault storage
+          this.joyDefault = Vue.ls.get('joyDefault', this.joyDefault);
+          Vue.ls.on('joyDefault', function(val) {
+            self.joyDefault = val;
+            self.joy = val;
           });
         },
         computed: {
-          // adminMode() {
-          //   return (window.orientation === 90) || (window.orientation === -90)
-          // },
           mouthData() {
             // return `M 60,140  C 90,${this.joy*80+140} 310,${this.joy*80+140}  340,140`
-            var svgDataPattern = /(-|\d)+|\w/g;
-            var negative2 = document.querySelector('#negative2').getAttributeNS(null,'d').match(svgDataPattern);
-            var negative1 = document.querySelector('#negative1').getAttributeNS(null,'d').match(svgDataPattern);
-            var positive1 = document.querySelector('#positive1').getAttributeNS(null,'d').match(svgDataPattern);
-            var positive2 = document.querySelector('#positive2').getAttributeNS(null,'d').match(svgDataPattern);
+            
             // console.log(datumNeg1)
 
             var A = '';
@@ -358,9 +392,12 @@
             this.answerMode = false;
 
             var self = this;
-            setTimeout(function(){self.answerMode = true}, Number(self.thanksDelay) * 1000);
+            setTimeout(function(){
+              app.answerMode = true;
+              console.log('switch back',app)
+            }, self.thanksDelay * 1000);
             
-            console.log('done')
+            console.log('done', self.thanksDelay * 1000)
           },
           toggleAdmin() {
             this.adminMode = (window.orientation === 90) || (window.orientation === -90);
