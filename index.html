@@ -5,12 +5,12 @@
     <meta charset="utf-8">
     <meta content="width=device-width,user-scalable=no" name="viewport">
     <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
     <link rel="shortcut icon" type="image/png" href="favicon.png">
     <link rel="apple-touch-icon" href="favicon.png">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.5.13/vue.min.js"></script>
     <script src="lib/vec2/vec2.min.js"></script>
-    <script src="https://github.com/hsluv/hsluv/releases/download/v0.0.1/hsluv.min.js"></script>
+    <!-- <script src="https://github.com/hsluv/hsluv/releases/download/v0.0.1/hsluv.min.js"></script> -->
     <style>
       *{
         box-sizing: border-box;
@@ -18,6 +18,9 @@
       html{
         font-size:8vmin;
         background-color:#fff07e;
+      }
+      body{
+        margin:0;
       }
       .face{
         fill:#19333f;
@@ -65,21 +68,37 @@
       .mood-range:focus::-webkit-slider-runnable-track {
         background: linear-gradient(to right, #1e5799 0%,#7db9e8 100%);
       }
+
+      #admin{
+        background-color:white;
+      }
     </style>
   </head>
 
   <body>
     <div id="app">
       <div v-if="answerMode">
-        <p>Do you like our new space?</p>
+        <p>{{action}}</p>
 
-        <input type="number" v-model="w">
-        <input type="number" v-model="h">
+        <div id="admin">
+          <h1>Settings</h1>
+          <input type="number" v-model="h">
+          <input type="number" v-model="vh">
+          <input type="text" v-model="analyticsKey">
+          <input type="text" v-model="category">
+          <input type="text" v-model="action">
+          <input type="text" v-model="label">
+          <input type="number" v-model="joyDefault">
+          <input type="number" v-model="joy">
+          <input type="number" step="0.001" v-model="thanksDelay">
+        </div>
 
         <svg width="768" height="500" viewBox="0 -50 400 300" @mousedown="down" @mousemove="move" @mouseup="up" @touchstart="down" @touchmove="move" @touchend="up">
           <defs>
-            <path id="mouth-1" d="M 60,140  C 90,90 310,90  340,140  310,100 90,100  60,140 z"/>
-            <path id="mouth1" d="M 60,120  C 90,150 310,150  340,120  310,160 90,160  60,120 z"/>
+            <path id="negative2" d="M 60,220  C 90,90 310,90  340,220  310,200 90,200  60,220 z"/>
+            <path id="negative1" d="M 60,140  C 90,90 310,90  340,140  310,100 90,100  60,140 z"/>
+            <path id="positive1" d="M 60,120  C 90,150 310,150  340,120  310,160 90,160  60,120 z"/>
+            <path id="positive2" d="M 60,120  C 90,110 310,110  340,120  310,270 90,270  60,120 z"/>
           </defs>
           <ellipse class="face"
             id="eyeLeft"
@@ -96,11 +115,14 @@
           <path class="face"
             id="mouth"
             :d="mouthData"/>
+          <!-- <path class="face"
+            id="mouth"
+            d="M 60,220  C 90,90 310,90  340,220  310,200 90,200  60,220 z"/> -->
         </svg>
         
         <div class="cushion">
           <div class="range-wrapper">
-            <input class="mood-range" type="range" min="-2" max="3" step="0.0001" v-model="joy" @mouseup="activated=true" @touchstart="activated=true">
+            <input class="mood-range" type="range" min="-200" max="200" v-model="joy" @mouseup="activated=true" @touchstart="activated=true">
           </div>
         </div>
 
@@ -163,29 +185,58 @@
         el: '#app',
         data:{
           answerMode: true,
-          joy: 0.5,
+          joyDefault: 50,
+          joy: 50,
           activated: false,
-          thanksDelay: 2000
+          thanksDelay: 2.000,
+          category: '',
+          action:'',
+          label:'',
+          analyticsKey:''
         },
         computed: {
           mouthData() {
             // return `M 60,140  C 90,${this.joy*80+140} 310,${this.joy*80+140}  340,140`
             var svgDataPattern = /\d+|\w/g;
-            var datumA = document.querySelector('#mouth-1').getAttributeNS(null,'d').match(svgDataPattern);
-            var datumB = document.querySelector('#mouth1').getAttributeNS(null,'d').match(svgDataPattern);
+            var negative2 = document.querySelector('#negative2').getAttributeNS(null,'d').match(svgDataPattern);
+            var negative1 = document.querySelector('#negative1').getAttributeNS(null,'d').match(svgDataPattern);
+            var positive1 = document.querySelector('#positive1').getAttributeNS(null,'d').match(svgDataPattern);
+            var positive2 = document.querySelector('#positive2').getAttributeNS(null,'d').match(svgDataPattern);
             // console.log(datumNeg1)
-            
-            var dataLerp = lerpArray(datumA, datumB, this.joy)
-            // console.log(this.joy,dataLerp)
 
+            var A = '';
+            var B = '';
+            var t=0;
 
-            return dataLerp.join(' ');
+            if(this.joy >= -200 && this.joy <= -100){
+              A = negative2;
+              B = negative1;
+              t = (Number(this.joy) + 200) / 100
+            }
+            if(this.joy > -100 && this.joy <= 100){
+              A = negative1;
+              B = positive1;
+              t = (Number(this.joy) + 100) / 200
+            }
+            if(this.joy > 100 && this.joy <= 200){
+              A = positive1;
+              B = positive2;
+              t = (Number(this.joy) - 100) / 100
+            }
+
+            return lerpArray(A, B, t).join(' ');
           },
           w() {
             return window.screen.availWidth
           },
           h() {
             return window.screen.availHeight
+          },
+          vw() {
+            return Math.max(document.documentElement.clientWidth, window.innerWidth || 0);
+          },
+          vh() {
+            return Math.max(document.documentElement.clientHeight, window.innerHeight || 0);
           }
         },
         methods: {
