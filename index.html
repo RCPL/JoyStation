@@ -214,7 +214,7 @@
         },
         computed: {
           adminMode() {
-            return window.screen.availHeight !== Math.max(document.documentElement.clientHeight, window.innerHeight || 0);
+            return window.orientation === 90;//window.screen.availHeight !== Math.max(document.documentElement.clientHeight, window.innerHeight || 0);
           },
           mouthData() {
             // return `M 60,140  C 90,${this.joy*80+140} 310,${this.joy*80+140}  340,140`
