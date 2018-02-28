@@ -189,6 +189,7 @@
       var app = new Vue({
         el: '#app',
         data:{
+          adminMode: false,
           answerMode: true,
           joyDefault: 50,
           joy: 50,
@@ -213,9 +214,6 @@
           });
         },
         computed: {
-          adminMode() {
-            return window.orientation === 90;//window.screen.availHeight !== Math.max(document.documentElement.clientHeight, window.innerHeight || 0);
-          },
           mouthData() {
             // return `M 60,140  C 90,${this.joy*80+140} 310,${this.joy*80+140}  340,140`
             var svgDataPattern = /\d+|\w/g;
@@ -289,17 +287,14 @@
             
             console.log('done')
           },
-          tilt(e){
-            console.log('tilted', e)
+          toggleAdmin() {
+            this.adminMode = (screen.orientation === 90) || (screen.orientation === -90);
           }
         }
-      });
-
-      window.addEventListener("orientationchange", function() {
-        alert("the orientation of the device is now " + screen.orientation.angle);
-        app.tilt();
         
       });
+
+      window.addEventListener("orientationchange", app.toggleAdmin);
     </script>
   </body>
 </html>
