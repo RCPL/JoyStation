@@ -201,14 +201,14 @@
         },
         watch: {
           action: function(val) {
-            this.$ls.set('action',val)
+            Vue.ls.set('action',val)
             console.log('changing the action')
           }
         },
         created: function() {
-          this.action = this.$ls.get('action', 'local storage default');
+          this.action = Vue.ls.get('action', 'local storage default');
           var self = this;
-          this.$ls.on('action', function(val) {
+          Vue.ls.on('action', function(val) {
             self.counter = val;
           });
         },
