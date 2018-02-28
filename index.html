@@ -289,12 +289,15 @@
           },
           toggleAdmin() {
             this.adminMode = (screen.orientation === 90) || (screen.orientation === -90);
+            console.log('turned screen',screen.orientation,this.adminMode);
           }
         }
         
       });
 
-      window.addEventListener("orientationchange", app.toggleAdmin);
+      window.addEventListener("orientationchange", function() {
+        app.toggleAdmin();
+      });
     </script>
   </body>
 </html>
