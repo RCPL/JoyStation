@@ -11,6 +11,7 @@
     <script src="https://unpkg.com/vue@2.5.13/dist/vue.min.js"></script>
     <script src="https://unpkg.com/vue-ls@2.3.3/dist/vue-ls.min.js"></script>
     <script src="https://unpkg.com/vec2@1.6.0/vec2.min.js"></script>
+    <link href="https://fonts.googleapis.com/css?family=Berkshire+Swash" rel="stylesheet"> 
     <!-- <script src="https://github.com/hsluv/hsluv/releases/download/v0.0.1/hsluv.min.js"></script> -->
     <style>
       *{
@@ -19,23 +20,34 @@
       html{
         font-size:8vmin;
         background-color:#fff07e;
+        
       }
       body{
         margin:0;
       }
+
+      .prompt {
+        font-family: 'Berkshire Swash', cursive;
+        text-align:center;
+      }
+
       .face{
-        fill:#19333f;
+        fill:#1c4355;
         stroke:#1c4355;
-        stroke-width:15px;
+        stroke-width:25px;
+        /* fill:white;
+        stroke:red; */
+        /* marker-start: url(#head); */
+        /* stroke-width:1px; */
         stroke-linecap:round;
         stroke-linejoin:round;
       }
 
       .range-wrapper {
-        border-radius: 0.5rem;
+        border-radius: 1rem;
         overflow:hidden;
         background-color:red;
-        height:1rem;
+        height:2rem;
       }
 
       .mood-range {
@@ -48,9 +60,9 @@
       }
       .mood-range::-webkit-slider-runnable-track {
         width: 100%;
-        height: 1rem;
-        padding:0.05rem;
-        border-radius: 0.5rem;
+        height: 2rem;
+        padding:0.1rem;
+        border-radius: 1rem;
         border: none;        
         cursor: pointer;
         
@@ -58,10 +70,10 @@
         background: linear-gradient(to right,#fc3f05 0%,#ae96ac 50%,#00b7b9 100%);
       }
       .mood-range::-webkit-slider-thumb {
-        height: 0.9rem;
-        width: 0.9rem;
+        height: 1.8rem;
+        width: 1.8rem;
         border: none;
-        border-radius: 0.45rem;
+        border-radius: 0.9rem;
         background: white;
         cursor: pointer;
         -webkit-appearance: none;
@@ -91,16 +103,31 @@
       </div>
 
       <div v-if="answerMode">
-        <p>{{action}}</p>
+        <p class="prompt">{{action}}</p>
 
         <svg width="768" height="500" viewBox="0 -50 400 300" @mousedown="down" @mousemove="move" @mouseup="up" @touchstart="down" @touchmove="move" @touchend="up">
           <defs>
-            <path id="negative2" d="M 60,220  C 90,90 310,90  340,220  310,200 90,200  60,220 z"/>
-            <path id="negative1" d="M 60,140  C 90,90 310,90  340,140  310,100 90,100  60,140 z"/>
-            <path id="positive1" d="M 60,120  C 90,150 310,150  340,120  310,160 90,160  60,120 z"/>
-            <path id="positive2" d="M 60,120  C 90,110 310,110  340,120  310,270 90,270  60,120 z"/>
+              <marker id='head' orient='auto' markerWidth='4' markerHeight='4' refX='0' refY='2'>
+                <path d='M0,0 V4 L4,2 Z' />
+              </marker>
+            <path id="negative2" d="
+              M 95 -10   A 40,15,15  1 0  96,-10
+              M 300 -10   A 40,15,345  1 0  301,-10
+              M 60,180  C 90,50 310,50  340,180  310,160 90,160  60,180 z"/>
+            <path id="negative1" d="
+              M 120 0  A 20,30,0  1 0  121,0
+              M 280 0   A 20,30,360  1 0  281,0
+              M 60,160  C 90,90 310,90  340,160  310,100 90,100  60,160 z"/>
+            <path id="positive1" d="
+              M 120 -10   A 20,30,15  1 0  121,-10
+              M 280 -10   A 20,30,355  1 0  281,-10
+              M 60,110  C 90,190 310,190  340,110  310,210 90,210  60,110 z"/>
+            <path id="positive2" d="
+              M 120 -30   A 20,40,5  1 0  121,-30 
+              M 280 -30   A 20,40,355  1 0  281,-30
+              M 60,115  C 90,105 310,105  340,115  310,255 90,255  60,115 z"/>
           </defs>
-          <ellipse class="face"
+          <!-- <ellipse class="face"
             id="eyeLeft"
             cx="90.654274"
             cy="11.090343"
@@ -111,7 +138,7 @@
             ry="12.558451"
             rx="14.882919"
             cy="9.9281092"
-            cx="309.15433"/>
+            cx="309.15433"/> -->
           <path class="face"
             id="mouth"
             :d="mouthData"/>
@@ -192,7 +219,7 @@
           adminMode: false,
           answerMode: true,
           joyDefault: 50,
-          joy: 50,
+          joy: 200,
           activated: false,
           thanksDelay: 2.000,
           category: '',
@@ -219,7 +246,7 @@
           // },
           mouthData() {
             // return `M 60,140  C 90,${this.joy*80+140} 310,${this.joy*80+140}  340,140`
-            var svgDataPattern = /\d+|\w/g;
+            var svgDataPattern = /(-|\d)+|\w/g;
             var negative2 = document.querySelector('#negative2').getAttributeNS(null,'d').match(svgDataPattern);
             var negative1 = document.querySelector('#negative1').getAttributeNS(null,'d').match(svgDataPattern);
             var positive1 = document.querySelector('#positive1').getAttributeNS(null,'d').match(svgDataPattern);
