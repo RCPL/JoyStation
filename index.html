@@ -77,21 +77,20 @@
 
   <body>
     <div id="app">
+
+      <div id="admin" v-if="adminMode">
+        <h1>Settings</h1>
+        <input type="text" v-model="analyticsKey">
+        <input type="text" v-model="category">
+        <input type="text" v-model="action">
+        <input type="text" v-model="label">
+        <input type="number" v-model="joyDefault">
+        <input type="number" v-model="joy">
+        <input type="number" step="0.1" v-model="thanksDelay" min="0" max="500">
+      </div>
+
       <div v-if="answerMode">
         <p>{{action}}</p>
-
-        <div id="admin">
-          <h1>Settings</h1>
-          <input type="number" v-model="h">
-          <input type="number" v-model="vh">
-          <input type="text" v-model="analyticsKey">
-          <input type="text" v-model="category">
-          <input type="text" v-model="action">
-          <input type="text" v-model="label">
-          <input type="number" v-model="joyDefault">
-          <input type="number" v-model="joy">
-          <input type="number" step="0.001" v-model="thanksDelay">
-        </div>
 
         <svg width="768" height="500" viewBox="0 -50 400 300" @mousedown="down" @mousemove="move" @mouseup="up" @touchstart="down" @touchmove="move" @touchend="up">
           <defs>
@@ -195,6 +194,9 @@
           analyticsKey:''
         },
         computed: {
+          adminMode() {
+            return window.screen.availHeight !== Math.max(document.documentElement.clientHeight, window.innerHeight || 0);
+          },
           mouthData() {
             // return `M 60,140  C 90,${this.joy*80+140} 310,${this.joy*80+140}  340,140`
             var svgDataPattern = /\d+|\w/g;
@@ -225,18 +227,6 @@
             }
 
             return lerpArray(A, B, t).join(' ');
-          },
-          w() {
-            return window.screen.availWidth
-          },
-          h() {
-            return window.screen.availHeight
-          },
-          vw() {
-            return Math.max(document.documentElement.clientWidth, window.innerWidth || 0);
-          },
-          vh() {
-            return Math.max(document.documentElement.clientHeight, window.innerHeight || 0);
           }
         },
         methods: {
