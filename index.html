@@ -383,7 +383,9 @@
               // console.log(e);
               thisPoint = Vec2(e.pageX, e.pageY);
               // this.x = thisPoint.x;
-              this.joy = thisPoint.y / 768 * 2 - 1;
+              this.joy = (thisPoint.y-200) / 500 * 400 - 200;
+              this.joy = Math.min(200, this.joy)
+              this.joy = Math.max(-200, this.joy)
             }
           },
           up(e){
