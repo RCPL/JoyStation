@@ -288,7 +288,7 @@
             console.log('done')
           },
           toggleAdmin() {
-            this.adminMode = (screen.orientation === 90) || (screen.orientation === -90);
+            this.adminMode = (screen.orientation == 90) || (screen.orientation == -90);
             console.log('turned screen',screen.orientation,this.adminMode);
           }
         }
