@@ -288,9 +288,14 @@
             setTimeout(function(){self.answerMode = true}, self.thanksDelay);
             
             console.log('done')
+          },
+          tilt(e){
+            console.log('tilted', e)
           }
         }
       });
+
+      window.onorientationchange = app.tilt;
     </script>
   </body>
 </html>
