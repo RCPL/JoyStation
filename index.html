@@ -98,8 +98,10 @@
 
       .admin{
         background-color:white;
-        font-size: 18px;
         font-family: Helvetica;
+      }
+      .admin *{
+        font-size: 18px;
       }
       .admin form{
         display:flex;
@@ -326,6 +328,7 @@
 
           // retrieve settings from local storage
           for(key in this.settings) {
+            console.log('building retrieve for', this.settings[key]);
             this.settings[key] = Vue.ls.get(key, this.settings[key]);
             var self = this;
             var self_key = key;
