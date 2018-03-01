@@ -308,25 +308,31 @@
             category: 'customers',
             label:'main',
             thanksDelay: 20.0,
-            joyDefault: 100,
+            joyDefault: 100
           }
         },
         watch: {
           // deposit settings into local storage
-          settings: function(val) {
-            Vue.ls.set('settings',val)
-            console.log('changing the settings')
+          settings: function(obj) {
+            for(key in obj) {
+              Vue.ls.set(key, obj[key])
+            }
+            // Vue.ls.set('settings',val)
+            console.log('Settings updated')
           }
         },
         created: function() {
           this.toggleAdmin();
 
           // retrieve settings from local storage
-          var self = this;
-          this.settings = Vue.ls.get('settings', this.settings);
-          Vue.ls.on('settings', function(val) {
-            self.settings = val;
-          });
+          for(key in this.settings) {
+            this.settings[key] = Vue.ls.get(key);
+            var self = this;
+            var self_key = key;
+            Vue.ls.on(self_key, function(val) {
+              self.settings[self_key] = val;
+            });
+          }
 // <!-- 
 //           // analyticsKey storage
 //           this.analyticsKey = Vue.ls.get('analyticsKey', this.analyticsKey);
