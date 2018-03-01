@@ -180,6 +180,7 @@
           <label>
             <div>Thanks &amp; Wait (seconds)</div>
             <input type="number" v-model="settings.thanksDelay" pattern="\d*" size="10" min="5" max="30" placeholder="10">
+            <input type="range" v-model="settings.thanksDelay"  min="5" max="30">
           </label>
 
           <label>
