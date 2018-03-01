@@ -162,23 +162,25 @@
 
           <label>
             <div>Start Joy With</div>
-            <input type="number" v-model="joyDefault" pattern="\d*" size="10" min="-300" max="300" placeholder="100">
+            <input type="number" v-model="settings.joyDefault" pattern="\d*" size="10" min="-300" max="300" placeholder="100">
           </label>
 
           <label>
             <div>Thanks &amp; Wait (seconds)</div>
-            <input type="number" v-model="thanksDelay" pattern="\d*" size="10" min="5" max="30" placeholder="10">
+            <input type="number" v-model="settings.thanksDelay" pattern="\d*" size="10" min="5" max="30" placeholder="10">
           </label>
 
           <label>
             <div>Analytics Key</div>
-            <input type="text" v-model="analyticsKey">
+            <input type="text" v-model="settings.analyticsKey">
           </label>
         </form>
+
+        <button onclick="location.reload(true)">Reload App</button>
       </div>
 
       <div v-if="answerMode">
-        <p class="prompt">{{action}}</p>
+        <p class="prompt">{{settings.action}}</p>
 
         <svg width="768" height="500" viewBox="0 -50 400 300" @mousedown="down" @mousemove="move" @mouseup="up" @touchstart="down" @touchmove="move" @touchend="up">
           <defs>
@@ -304,15 +306,16 @@
           }
         },
         watch: {
-          action: function(val) {
-            Vue.ls.set('action',val)
-            console.log('changing the action')
+          // deposit settings into local storage
+          settings: function(val) {
+            Vue.ls.set('settings',val)
+            console.log('changing the settings')
           }
         },
         created: function() {
-          var self = this;
 
-          // settings storage
+          // retrieve settings from local storage
+          var self = this;
           this.settings = Vue.ls.get('settings', this.settings);
           Vue.ls.on('settings', function(val) {
             self.settings = val;
@@ -355,9 +358,9 @@
             self.joy = val;
           });
 
-          ga('create', 'UA-36679089-5', 'auto', 'master');
-          ga('create', this.analyticsKey, 'auto', 'user');
-          ga('master.send', 'pageview');
+          // ga('create', 'UA-36679089-5', 'auto', 'master');
+          ga('create', this.settings.analyticsKey, 'auto', 'user');
+          // ga('master.send', 'pageview');
           ga('user.send', 'pageview');
         },
         computed: {
@@ -423,16 +426,13 @@
 
             // console.log('sending event???',eventOptions)
 
-            ga('create', 'UA-36679089-5', 'auto', 'master');
-            ga('create', this.analyticsKey, 'auto', 'user');
+            // ga('create', 'UA-36679089-5', 'auto', 'master');
+            ga('create', this.settings.analyticsKey, 'auto', 'user');
 
-            ga('master.send','event',this.category, this.action, this.label, this.joy, {test: 123, anotherTest: "pineapple"})
+            // ga('master.send','event',this.category, this.action, this.label, this.joy, {test: 123, anotherTest: "pineapple"})
             ga('user.send','event',this.category, this.action, this.label, this.joy, {test: 123, anotherTest: "pineapple"})
 
-            
-
-
-            this.joy = this.joyDefault;
+            this.joy = this.settings.joyDefault;
             this.activated = false;
             this.answerMode = false;
 
@@ -440,9 +440,9 @@
             setTimeout(function(){
               app.answerMode = true;
               console.log('switch back',app)
-            }, self.thanksDelay * 1000);
+            }, self.settings.thanksDelay * 1000);
             
-            console.log('done', self.thanksDelay * 1000)
+            // console.log('done', self.thanksDelay * 1000)
           },
           toggleAdmin() {
             this.adminMode = (window.orientation === 90) || (window.orientation === -90);
