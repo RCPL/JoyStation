@@ -11,6 +11,15 @@
     <script src="https://unpkg.com/vue@2.5.13/dist/vue.min.js"></script>
     <script src="https://unpkg.com/vue-ls@2.3.3/dist/vue-ls.min.js"></script>
     <script src="https://unpkg.com/vec2@1.6.0/vec2.min.js"></script>
+
+    <script>
+    // Analytics      
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+    </script>
+
     <link href="https://fonts.googleapis.com/css?family=Berkshire+Swash" rel="stylesheet"> 
     <!-- <script src="https://github.com/hsluv/hsluv/releases/download/v0.0.1/hsluv.min.js"></script> -->
     <style>
@@ -164,7 +173,8 @@
 
           <label>
             <div>Start Joy With</div>
-            <input type="number" v-model="settings.joyDefault" pattern="\d*" size="10" min="-300" max="300" placeholder="100">
+            <input type="number" v-model="settings.joyDefault" pattern="\d*" size="10" min="-200" max="200" placeholder="100">
+            <input type="range" v-model="settings.joyDefault"  min="-200" max="200">
           </label>
 
           <label>
@@ -183,7 +193,9 @@
           </label>
         </form>
 
-        <button onclick="location.reload(true)">Reload App</button>
+        <button @click="saveSettings()">Save</button>
+        <button onclick="location.reload(true)">Reset</button>
+
       </div>
 
       <div v-if="answerMode">
@@ -218,7 +230,7 @@
         
         <div class="cushion-sides">
           <div class="range-wrapper">
-            <input class="mood-range" type="range" min="-200" max="200" v-model="joy" @mouseup="activated=true" @touchstart="activated=true">
+            <input class="mood-range" type="range" min="-200" max="200" v-model="joySwap" @mouseup="activated=true" @touchstart="activated=true">
           </div>
         </div>
 
@@ -291,18 +303,11 @@
       var app = new Vue({
         el: '#app',
         data:{
-          joy: 0,
-          adminMode: false,
+          joySwap: 0,
+          adminMode: true,
           answerMode: true,
           activated: false,
 
-          // analyticsKey:'',
-          // action:'Question',
-          // category: 'customers',
-          // label:'main',
-
-          // thanksDelay: 20.0,
-          // joyDefault: 100,
           settings: {
             debug: true,
             analyticsKey:'',
@@ -313,81 +318,34 @@
             joyDefault: 100
           }
         },
-        watch: {
-          // deposit settings into local storage
-          settings: function(obj) {
-            for(key in obj) {
-              Vue.ls.set(key, obj[key])
-            }
-            // Vue.ls.set('settings',val)
-            console.log('Settings updated')
-          }
-        },
-        mounted: function() {
+
+        created() {
           this.toggleAdmin();
 
-          console.log('the settings', this.settings)
-
           // retrieve settings from local storage
-          for(key in this.settings) {
-            console.log('building retrieve for', this.settings[key]);
+          var keys = Object.keys(this.settings);
+          for(i in keys) {
+            var key = keys[i];
+            console.log('building retrieve for', key);
             this.settings[key] = Vue.ls.get(key, this.settings[key]);
             var self = this;
-            var self_key = key;
-            Vue.ls.on(self_key, function(val) {
-              self.settings[self_key] = val;
+            Vue.ls.on(key, function(val) {
+              self.settings[key] = val;
             });
           }
-// <!-- 
-//           // analyticsKey storage
-//           this.analyticsKey = Vue.ls.get('analyticsKey', this.analyticsKey);
-//           Vue.ls.on('analyticsKey', function(val) {
-//             self.analyticsKey = val;
-//           });
-          
-//           // action storage
-//           this.action = Vue.ls.get('action', this.action);
-//           Vue.ls.on('action', function(val) {
-//             self.action = val;
-//           });
 
-//           // category storage
-//           this.category = Vue.ls.get('category', this.category);
-//           Vue.ls.on('category', function(val) {
-//             self.category = val;
-//           });
+          this.joySwap = this.settings.joyDefault;
 
-//           // label storage
-//           this.label = Vue.ls.get('label', this.label);
-//           Vue.ls.on('label', function(val) {
-//             self.label = val;
-//           });
-
-//           // thanksDelay storage
-//           this.thanksDelay = Vue.ls.get('thanksDelay', this.thanksDelay);
-//           Vue.ls.on('thanksDelay', function(val) {
-//             self.thanksDelay = val;
-//           });
-
-//           // joyDefault storage
-//           this.joyDefault = Vue.ls.get('joyDefault', this.joyDefault);
-//           Vue.ls.on('joyDefault', function(val) {
-//             self.joyDefault = val;
-//             self.joy = val;
-//           }); -->
-
-          // ga('create', 'UA-36679089-5', 'auto', 'master');
           if(this.settings.analyticsKey !== '' && !this.settings.debug) {
             ga('create', this.settings.analyticsKey, 'auto', 'user');
             ga('user.send', 'pageview');
           }
         },
         computed: {
+          joy() {
+            return this.adminMode ? this.settings.joyDefault : this.joySwap;
+          },
           mouthData() {
-            // return `M 60,140  C 90,${this.joy*80+140} 310,${this.joy*80+140}  340,140`
-            
-            // console.log(datumNeg1)
-
             var A = '';
             var B = '';
             var t=0;
@@ -433,19 +391,6 @@
           },
           done(e) {
             e.preventDefault();
-            // var eventOptions = {
-            //   value: Math.round(this.joy * 100),
-            //   currency: 'JOY',
-            //   items: [],
-            //   coupon: "Garden Level Opening: Do you like our new space?",
-            //   checkout_step: 1,
-            //   checkout_option:'face'
-            // };
-            // gtag('event', 'checkout_progress', eventOptions);
-
-            // console.log('sending event???',eventOptions)
-
-            // ga('create', 'UA-36679089-5', 'auto', 'master');
             if(this.settings.analyticsKey !== '' && !this.settings.debug) {
               ga('create', this.settings.analyticsKey, 'auto', 'user');
               ga('user.send','event',this.settings.category, this.settings.action, this.settings.label, this.joy, {test: 123, anotherTest: "pineapple"})
@@ -461,11 +406,22 @@
               console.log('switch back',app)
             }, self.settings.thanksDelay * 1000);
             
-            // console.log('done', self.thanksDelay * 1000)
+            console.log('Answer submitted. Waiting', self.thanksDelay, 'seconds')
           },
           toggleAdmin() {
-            this.adminMode = (window.orientation === 90) || (window.orientation === -90);
-            console.log('turned screen',window.orientation,this.adminMode);
+            if( (window.orientation === 90) || (window.orientation === -90) ) {
+              app.adminMode = true;
+            }
+          },
+          saveSettings() {
+            var keys = Object.keys(this.settings);
+            for(i in keys) {
+              var key = keys[i];
+              Vue.ls.set(key, this.settings[key]);
+            }
+
+            this.adminMode = false;
+            this.joySwap = this.settings.joyDefault;
           }
         }
         
@@ -474,12 +430,6 @@
       window.addEventListener("orientationchange", function() {
         app.toggleAdmin();
       });
-
-      // Analytics      
-      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-      })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
     </script>
   </body>
 </html>
