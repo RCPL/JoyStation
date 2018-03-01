@@ -143,13 +143,13 @@
         <form>
           <label>
             <div>Prompt</div>
-            <input type="text" v-model="action" placeholder="That meeting was" size="20">
+            <input type="text" v-model="settings.action" placeholder="That meeting was" size="20">
           </label>
           
           <label>
             <div>Category</div>
             <!-- <input type="text" v-model="category" placeholder="staff" size="10"> -->
-            <select v-model="category">
+            <select v-model="settings.category">
               <option>customers</option>
               <option>staff</option>
             </select>
@@ -161,13 +161,13 @@
           </label>
 
           <label>
-            <div>Joy Start</div>
-            <input type="number" v-model="joyDefault" size="10" min="-300" max="300">
+            <div>Start Joy With</div>
+            <input type="number" v-model="joyDefault" pattern="\d*" size="10" min="-300" max="300" placeholder="100">
           </label>
 
           <label>
-            <div>Thanks Delay</div>
-            <input type="number" v-model="thanksDelay" size="10" min="5" max="30">
+            <div>Thanks &amp; Wait (seconds)</div>
+            <input type="number" v-model="thanksDelay" pattern="\d*" size="10" min="5" max="30" placeholder="10">
           </label>
 
           <label>
@@ -293,7 +293,15 @@
           label:'main',
 
           thanksDelay: 20.0,
-          joyDefault: 100
+          joyDefault: 100,
+          settings: {
+            analyticsKey:'',
+            action:'Question',
+            category: 'customers',
+            label:'main',
+            thanksDelay: 20.0,
+            joyDefault: 100,
+          }
         },
         watch: {
           action: function(val) {
@@ -303,6 +311,12 @@
         },
         created: function() {
           var self = this;
+
+          // settings storage
+          this.settings = Vue.ls.get('settings', this.settings);
+          Vue.ls.on('settings', function(val) {
+            self.settings = val;
+          });
 
           // analyticsKey storage
           this.analyticsKey = Vue.ls.get('analyticsKey', this.analyticsKey);
