@@ -289,13 +289,13 @@
           answerMode: true,
           activated: false,
 
-          analyticsKey:'',
-          action:'Question',
-          category: 'customers',
-          label:'main',
+          // analyticsKey:'',
+          // action:'Question',
+          // category: 'customers',
+          // label:'main',
 
-          thanksDelay: 20.0,
-          joyDefault: 100,
+          // thanksDelay: 20.0,
+          // joyDefault: 100,
           settings: {
             analyticsKey:'',
             action:'Question',
@@ -313,6 +313,7 @@
           }
         },
         created: function() {
+          this.toggleAdmin();
 
           // retrieve settings from local storage
           var self = this;
@@ -320,43 +321,43 @@
           Vue.ls.on('settings', function(val) {
             self.settings = val;
           });
-
-          // analyticsKey storage
-          this.analyticsKey = Vue.ls.get('analyticsKey', this.analyticsKey);
-          Vue.ls.on('analyticsKey', function(val) {
-            self.analyticsKey = val;
-          });
+// <!-- 
+//           // analyticsKey storage
+//           this.analyticsKey = Vue.ls.get('analyticsKey', this.analyticsKey);
+//           Vue.ls.on('analyticsKey', function(val) {
+//             self.analyticsKey = val;
+//           });
           
-          // action storage
-          this.action = Vue.ls.get('action', this.action);
-          Vue.ls.on('action', function(val) {
-            self.action = val;
-          });
+//           // action storage
+//           this.action = Vue.ls.get('action', this.action);
+//           Vue.ls.on('action', function(val) {
+//             self.action = val;
+//           });
 
-          // category storage
-          this.category = Vue.ls.get('category', this.category);
-          Vue.ls.on('category', function(val) {
-            self.category = val;
-          });
+//           // category storage
+//           this.category = Vue.ls.get('category', this.category);
+//           Vue.ls.on('category', function(val) {
+//             self.category = val;
+//           });
 
-          // label storage
-          this.label = Vue.ls.get('label', this.label);
-          Vue.ls.on('label', function(val) {
-            self.label = val;
-          });
+//           // label storage
+//           this.label = Vue.ls.get('label', this.label);
+//           Vue.ls.on('label', function(val) {
+//             self.label = val;
+//           });
 
-          // thanksDelay storage
-          this.thanksDelay = Vue.ls.get('thanksDelay', this.thanksDelay);
-          Vue.ls.on('thanksDelay', function(val) {
-            self.thanksDelay = val;
-          });
+//           // thanksDelay storage
+//           this.thanksDelay = Vue.ls.get('thanksDelay', this.thanksDelay);
+//           Vue.ls.on('thanksDelay', function(val) {
+//             self.thanksDelay = val;
+//           });
 
-          // joyDefault storage
-          this.joyDefault = Vue.ls.get('joyDefault', this.joyDefault);
-          Vue.ls.on('joyDefault', function(val) {
-            self.joyDefault = val;
-            self.joy = val;
-          });
+//           // joyDefault storage
+//           this.joyDefault = Vue.ls.get('joyDefault', this.joyDefault);
+//           Vue.ls.on('joyDefault', function(val) {
+//             self.joyDefault = val;
+//             self.joy = val;
+//           }); -->
 
           // ga('create', 'UA-36679089-5', 'auto', 'master');
           ga('create', this.settings.analyticsKey, 'auto', 'user');
