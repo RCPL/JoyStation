@@ -148,7 +148,11 @@
           
           <label>
             <div>Category</div>
-            <input type="text" v-model="category" placeholder="staff" size="10">
+            <!-- <input type="text" v-model="category" placeholder="staff" size="10"> -->
+            <select v-model="category">
+              <option>customers</option>
+              <option>staff</option>
+            </select>
           </label>
           
           <label>
