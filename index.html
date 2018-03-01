@@ -326,6 +326,8 @@
         created: function() {
           this.toggleAdmin();
 
+          console.log('the settings', this.settings)
+
           // retrieve settings from local storage
           for(key in this.settings) {
             console.log('building retrieve for', this.settings[key]);
