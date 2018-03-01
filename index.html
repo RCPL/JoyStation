@@ -437,7 +437,7 @@
             // ga('create', 'UA-36679089-5', 'auto', 'master');
             if(this.settings.analyticsKey !== '' && !debug) {
               ga('create', this.settings.analyticsKey, 'auto', 'user');
-              ga('user.send','event',this.category, this.action, this.label, this.joy, {test: 123, anotherTest: "pineapple"})
+              ga('user.send','event',this.settings.category, this.settings.action, this.settings.label, this.joy, {test: 123, anotherTest: "pineapple"})
             }
 
             this.joy = this.settings.joyDefault;
