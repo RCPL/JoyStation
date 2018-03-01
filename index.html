@@ -326,7 +326,7 @@
 
           // retrieve settings from local storage
           for(key in this.settings) {
-            this.settings[key] = Vue.ls.get(key);
+            this.settings[key] = Vue.ls.get(key, this.settings[key]);
             var self = this;
             var self_key = key;
             Vue.ls.on(self_key, function(val) {
@@ -372,7 +372,7 @@
 //           }); -->
 
           // ga('create', 'UA-36679089-5', 'auto', 'master');
-          if(this.settings.analyticsKey !== '' && !debug) {
+          if(this.settings.analyticsKey !== '' && !this.settings.debug) {
             ga('create', this.settings.analyticsKey, 'auto', 'user');
             ga('user.send', 'pageview');
           }
@@ -441,7 +441,7 @@
             // console.log('sending event???',eventOptions)
 
             // ga('create', 'UA-36679089-5', 'auto', 'master');
-            if(this.settings.analyticsKey !== '' && !debug) {
+            if(this.settings.analyticsKey !== '' && !this.settings.debug) {
               ga('create', this.settings.analyticsKey, 'auto', 'user');
               ga('user.send','event',this.settings.category, this.settings.action, this.settings.label, this.joy, {test: 123, anotherTest: "pineapple"})
             }
