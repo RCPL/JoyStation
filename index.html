@@ -427,7 +427,7 @@
             console.log('Answer submitted. Waiting', self.thanksDelay, 'seconds')
           },
           toggleAdmin() {
-            var orientation = window.orientation || window.screen.orientation.angle;
+            var orientation = window.orientation;// || window.screen.orientation.angle;
             console.log('orientation',orientation)
             if( (orientation === 90) || (orientation === -90) ) {
               this.adminMode = true;
