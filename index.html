@@ -120,6 +120,20 @@
       .admin label{
         margin-bottom:1em;
       }
+      .admin input[type="text"],
+      .admin input[type="number"],
+      .admin select
+      
+      {
+        background-color:bisque;
+        border:solid 1px rgb(223, 183, 134);
+        padding: 0.1em 0.2em;
+        border-radius: 0.2em;
+      }
+      .admin small{
+        font-size:0.8em;
+        font-style: italic;
+      }
 
       .thanks{
         /* display:flex;
@@ -154,7 +168,7 @@
         <form>
           <label>
             <div>Prompt</div>
-            <input type="text" v-model="settings.action" placeholder="That meeting was" size="20">
+            <input type="text" v-model="settings.action" placeholder="That meeting was" size="20" maxlength="21" pattern="[\d| |?]">
           </label>
           
           <label>
@@ -186,10 +200,11 @@
           <label>
             <div>Analytics Key</div>
             <input type="text" v-model="settings.analyticsKey">
+            <small>Without a key, JoyStation runs in Demo Mode</small>
           </label>
 
           <label>
-            <div>Debug</div>
+            <div>Force Demo Mode</div>
             <input type="checkbox" v-model="settings.debug">
           </label>
         </form>
@@ -310,7 +325,7 @@
           activated: false,
 
           settings: {
-            debug: true,
+            debug: false,
             analyticsKey:'',
             action:'Question',
             category: 'customers',
@@ -410,8 +425,10 @@
             console.log('Answer submitted. Waiting', self.thanksDelay, 'seconds')
           },
           toggleAdmin() {
-            if( (window.orientation === 90) || (window.orientation === -90) ) {
-              app.adminMode = true;
+            var orientation = window.orientation || window.screen.orientation.angle;
+            console.log('orientation',orientation)
+            if( (orientation === 90) || (orientation === -90) ) {
+              this.adminMode = true;
             }
           },
           saveSettings() {
