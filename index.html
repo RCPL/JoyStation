@@ -311,6 +311,7 @@
       }
 
       var pressed = false;
+      var rebootOnTilt = false;
       var thisPoint = Vec2(150,165);
 
       ////// Vue
@@ -430,6 +431,8 @@
             console.log('orientation',orientation)
             if( (orientation === 90) || (orientation === -90) ) {
               this.adminMode = true;
+            }else if(rebootOnTilt){
+              location.reload(true);
             }
           },
           saveSettings() {
@@ -439,8 +442,9 @@
               Vue.ls.set(key, this.settings[key]);
             }
 
-            this.adminMode = false;
             this.joySwap = this.settings.joyDefault;
+            this.toggleAdmin();
+            rebootOnTilt = true;
           }
         }
         
