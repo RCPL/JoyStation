@@ -419,9 +419,8 @@
             this.activated = false;
             this.answerMode = false;
 
-            var self = this;
             setTimeout(function(){
-              self.reset()
+              app.reset()
             }, this.settings.thanksDelay * 1000);
             
             console.log('Answer submitted. Waiting', this.settings.thanksDelay, 'seconds')
