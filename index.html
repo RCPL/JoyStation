@@ -419,8 +419,10 @@
             this.activated = false;
             this.answerMode = false;
 
+            var self = this;
             setTimeout(function(){
-              app.reset()
+              self.answerMode = true;
+              self.joySwap = self.settings.joyDefault;
             }, this.settings.thanksDelay * 1000);
             
             console.log('Answer submitted. Waiting', this.settings.thanksDelay, 'seconds')
@@ -437,8 +439,7 @@
           },
           reset() {
             console.log('reset');
-            this.answerMode = true;
-            this.joy = this.settings.joyDefault;
+            
           },
           saveSettings() {
             var keys = Object.keys(this.settings);
