@@ -421,12 +421,10 @@
 
             var self = this;
             setTimeout(function(){
-              self.answerMode = true;
-              self.joy = self.settings.joyDefault;
-              console.log('switch back',app)
+              self.reset()
             }, this.settings.thanksDelay * 1000);
             
-            console.log('Answer submitted. Waiting', self.thanksDelay, 'seconds')
+            console.log('Answer submitted. Waiting', this.settings.thanksDelay, 'seconds')
           },
           toggleAdmin() {
             var orientation = ( window.screen.orientation !== undefined ) ?
@@ -437,6 +435,11 @@
             }else if(rebootOnTilt){
               location.reload(true);
             }
+          },
+          reset() {
+            console.log('reset');
+            self.answerMode = true;
+            self.joy = self.settings.joyDefault;
           },
           saveSettings() {
             var keys = Object.keys(this.settings);
