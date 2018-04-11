@@ -437,8 +437,8 @@
           },
           reset() {
             console.log('reset');
-            self.answerMode = true;
-            self.joy = self.settings.joyDefault;
+            this.answerMode = true;
+            this.joy = this.settings.joyDefault;
           },
           saveSettings() {
             var keys = Object.keys(this.settings);
