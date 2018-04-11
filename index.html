@@ -404,30 +404,31 @@
               this.joy = Math.max(-200, this.joy)
             }
           },
+
           up(e){
             pressed = false;
           },
+
           done(e) {
             e.preventDefault();
             if(this.settings.analyticsKey !== '' && !this.settings.debug) {
               ga('create', this.settings.analyticsKey, 'auto', 'user');
               ga('user.send','event',this.settings.category, this.settings.action, this.settings.label, this.joy, {test: 123, anotherTest: "pineapple"})
             }
-
-            this.joy = this.settings.joyDefault;
+            
             this.activated = false;
             this.answerMode = false;
 
             var self = this;
             setTimeout(function(){
-              app.answerMode = true;
+              self.answerMode = true;
+              self.joy = self.settings.joyDefault;
               console.log('switch back',app)
-            }, self.settings.thanksDelay * 1000);
+            }, this.settings.thanksDelay * 1000);
             
             console.log('Answer submitted. Waiting', self.thanksDelay, 'seconds')
           },
           toggleAdmin() {
-            
             var orientation = ( window.screen.orientation !== undefined ) ?
               window.screen.orientation.angle : window.orientation;
             console.log('orientation',orientation)
